@@ -3,44 +3,99 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lee.mapper.Mapper">
-<select id="findUserById" parameterType="int" resultType="com.lee.pojo.User">
-	select * from user where id=#{value}
-</select>
-<!-- 根据用户名称模糊查询用户信息
-	resultType表示单条结果的类型
- -->
-<select id="findUserByUsername" parameterType="java.lang.String" resultType="user">
-	select * from user where username like #{value}
-</select>
-<!-- 查询用户 -->
+	<select id="findUserById" parameterType="int" resultType="com.lee.pojo.User">
+		select
+		* from user where id=#{value}
+	</select>
+	<!-- 根据用户名称模糊查询用户信息 resultType表示单条结果的类型 -->
+	<select id="findUserByUsername" parameterType="java.lang.String"
+		resultType="user">
+		select * from user where username like #{value}
+	</select>
+	<!-- 查询用户 -->
 
-<!-- 添加用戶 -->
-<insert id="insertUser" parameterType="com.lee.pojo.User">
+	<!-- 添加用戶 -->
+	<insert id="insertUser" parameterType="com.lee.pojo.User">
 
-<!-- 返回自增主键 -->
-<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-<!-- 此函数只能用来返回自增主键 -->
-	select last_insert_id()
-</selectKey>
-insert into user(username,birthday,sex,address) value(#{username},#{birthday},#{sex},#{address})
-</insert>
+		<!-- 返回自增主键 -->
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			<!-- 此函数只能用来返回自增主键 -->
+			select last_insert_id()
+		</selectKey>
+		insert into user(username,birthday,sex,address)
+		value(#{username},#{birthday},#{sex},#{address})
+	</insert>
 
-<!-- 根据id删除用户 -->
-<delete id="deleteUser" parameterType="java.lang.Integer">
- delete from user where id=#{id}
-</delete>
+	<!-- 根据id删除用户 -->
+	<delete id="deleteUser" parameterType="java.lang.Integer">
+		delete from user where
+		id=#{id}
+	</delete>
 
-<!-- 根据id更新用户 -->
-<update id="updateUser" parameterType="com.lee.pojo.User">
-	update user set username=#{username},birthday=#{birthday},sex=#{sex},address=#{address}   where id=#{id}
-</update>
+	<!-- 根据id更新用户 -->
+	<update id="updateUser" parameterType="com.lee.pojo.User">
+		update user set
+		username=#{username},birthday=#{birthday},sex=#{sex},address=#{address}
+		where id=#{id}
+	</update>
+	
+	<!-- sql片段 
+		不要将where包含进去,方便加入多个片段
+	-->
+	<sql id="sexAndUseName">
+			<if test="usreCustom!=null">
+				<if test="usreCustom.sex!=null and usreCustom.sex!=''">
+					and user.sex=#{usreCustom.sex}
+				</if>
+				<if test="usreCustom.username!=null and usreCustom.username!=''">
+					and user.username like '%${usreCustom.username}%'
+				</if>
+			</if>
+			<!-- 使用foreache 
+				and id in(1,10,16)
+			-->
+			<if test="ids!=null and ids!=''">
+			
+			<foreach collection="ids" item="item_id" open="and id in(" close=")" separator=",">
+				#{item_id}
+			</foreach>
+			</if>
+	</sql>
 
-<!-- 使用包装类型综合查询用户信息 
-	查询叫小明的男性
--->
-<select id="findList" parameterType="com.lee.pojo.UserQueryVo" resultType="com.lee.pojo.UserCustom">
+	<!-- 使用包装类型综合查询用户信息 查询叫小明的男性 -->
+	<select id="findList" parameterType="com.lee.pojo.UserQueryVo"
+		resultType="com.lee.pojo.UserCustom">
 
-select * from user where user.sex=#{usreCustom.sex} and user.username like '%${usreCustom.username}%'
+		select * from user
+		<!-- 使用动态sql拼接 -->
+		<where>
+		<include refid="sexAndUseName"/>
+		</where>
 
-</select>
+	</select>
+
+	<!-- 综合查询的总数 -->
+	<select id="findUserCount" parameterType="com.lee.pojo.UserQueryVo"
+		resultType="int">
+
+		select count(*) from user where user.sex=#{usreCustom.sex}
+		and user.username
+		like '%${usreCustom.username}%'
+
+	</select>
+
+	<!-- resultMap type:映射的pojo对象 id:唯一标示 -->
+	<resultMap type="userCustom" id="resultMapfindUserResultMap">
+		<!-- id表示查詢結果的唯一標示 result:普通列 -->
+		<id column="编号" property="id" />
+		<result column="姓名" property="username" />
+	</resultMap>
+
+	<!-- 使用resultMap来映射输出 -->
+	<select id="findUserResultMap" parameterType="int"
+		resultMap="resultMapfindUserResultMap">
+		select id 编号,username 姓名 from user where id=#{id}
+	</select>
+
+
 </mapper>

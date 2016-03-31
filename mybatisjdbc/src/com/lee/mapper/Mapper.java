@@ -12,4 +12,10 @@ public interface Mapper {
 	
 	//综合查询用户信息,输入使用pojo包装类型
 	public List<UserCustom> findList(UserQueryVo userQUeryVo)throws Exception;
+	
+	//综合查询的总数
+	public int findUserCount(UserQueryVo userQueryVo)throws Exception;
+	
+	//使用resultmap接收查詢結果
+	public UserCustom findUserResultMap(int id)throws Exception;
 }
