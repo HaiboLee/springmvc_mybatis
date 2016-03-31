@@ -9,7 +9,7 @@ public class User {
 	private int id;
 	private String username;
 	private Date birthday;
-	private int sex;
+	private String sex;
 	private String address;
 	public int getId() {
 		return id;
@@ -29,10 +29,10 @@ public class User {
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
-	public int getSex() {
+	public String getSex() {
 		return sex;
 	}
-	public void setSex(int sex) {
+	public void setSex(String sex) {
 		this.sex = sex;
 	}
 	public String getAddress() {

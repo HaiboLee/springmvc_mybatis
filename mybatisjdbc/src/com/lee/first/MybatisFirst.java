@@ -110,7 +110,7 @@ public class MybatisFirst {
 		user.setUsername("李四");
 		user.setAddress("日照");
 		user.setBirthday(new Date());
-		user.setSex(1);
+		user.setSex("1");
 		
 		sqlSession.update("test.updateUser", user);
 		//提交事务

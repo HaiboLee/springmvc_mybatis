@@ -34,4 +34,13 @@ insert into user(username,birthday,sex,address) value(#{username},#{birthday},#{
 <update id="updateUser" parameterType="com.lee.pojo.User">
 	update user set username=#{username},birthday=#{birthday},sex=#{sex},address=#{address}   where id=#{id}
 </update>
+
+<!-- 使用包装类型综合查询用户信息 
+	查询叫小明的男性
+-->
+<select id="findList" parameterType="com.lee.pojo.UserQueryVo" resultType="com.lee.pojo.UserCustom">
+
+select * from user where user.sex=#{usreCustom.sex} and user.username like '%${usreCustom.username}%'
+
+</select>
 </mapper>
