@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 多表查询 一对一 根据订单信息查询用户信息 -->
+<mapper namespace="com.lee.mapper.OrdersMapper">
+	<select id="findUserByOrdersNumber" resultType="OrederCustom">
+		select
+		orders.*,user.username,user.address from orders,user where
+		orders.user_id=user.id;
+	</select>
+
+	<!-- 使用resultMap -->
+	<resultMap type="com.lee.pojo.OrderQueryVo" id="findUser_ResultMap">
+		<association property="com.lee.pojo.Orders">
+			<id column="id" property="id" />
+			<result column="user_id" property="user_id" />
+			<result column="number" property="number" />
+			<result column="createtime" property="createtime" />
+			<result column="note" property="note" />
+		</association>
+		<association property="com.lee.pojo.User">
+			<result column="username" property="username" />
+			<result column="address" property="address" />
+		</association>
+	</resultMap>
+	<select id="findUserResultMap" resultMap="findUser_ResultMap">
+		select orders.*,user.username,user.address from orders,user where
+		orders.user_id=user.id;
+	</select>
+</mapper>

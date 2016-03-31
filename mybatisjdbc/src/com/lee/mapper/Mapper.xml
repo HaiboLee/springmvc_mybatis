@@ -96,6 +96,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		resultMap="resultMapfindUserResultMap">
 		select id 编号,username 姓名 from user where id=#{id}
 	</select>
-
-
+	
 </mapper>

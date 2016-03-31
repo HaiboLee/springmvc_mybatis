@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<!-- 別名 -->
 	<typeAliases>
 		<!-- 单个别名设置 -->
-		<typeAlias type="com.lee.pojo.User" alias="user" />
+		<!-- <typeAlias type="com.lee.pojo.User" alias="user" /> -->
 		<!-- 批量别名设 自动设置的别名为类名的大写或者小写 -->
 		<package name="com.lee.pojo" />
 	</typeAliases>

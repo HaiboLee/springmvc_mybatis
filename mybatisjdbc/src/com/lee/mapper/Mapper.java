@@ -2,6 +2,7 @@ package com.lee.mapper;
 
 import java.util.List;
 
+import com.lee.pojo.OrderQueryVo;
 import com.lee.pojo.User;
 import com.lee.pojo.UserCustom;
 import com.lee.pojo.UserQueryVo;
@@ -18,4 +19,7 @@ public interface Mapper {
 	
 	//使用resultmap接收查詢結果
 	public UserCustom findUserResultMap(int id)throws Exception;
+	
+	//多表查询一对一
+	public OrderQueryVo findUserByOrdersNumber(String number) throws Exception;
 }

@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.lee.mapper.Mapper;
+import com.lee.pojo.OrderQueryVo;
 import com.lee.pojo.User;
 import com.lee.pojo.UserCustom;
 import com.lee.pojo.UserQueryVo;
@@ -93,6 +94,20 @@ public class MapperTest {
 		UserCustom count=mapper.findUserResultMap(1);
 		
 		System.out.println(count.toString());
+
+	}
+	@Test
+	public void testFindUserByOrders() throws Exception {
+		SqlSession sqlSession=sqlsessionFactory.openSession();
+
+		//使用sqlSession.getMapper()得到mapper接口的對象
+		Mapper mapper=sqlSession.getMapper(Mapper.class);
+		
+		
+		
+		OrderQueryVo count=mapper.findUserByOrdersNumber("1000010");
+		
+		System.out.println(count.getUser().toString());
 
 	}
 
