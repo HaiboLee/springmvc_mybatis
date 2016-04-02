@@ -1,6 +1,7 @@
 package com.lee.pojo;
 
 import java.util.Date;
+import java.util.List;
 
 /**
 * @author :lihaiboloveyou@live.com
@@ -13,8 +14,22 @@ public class Orders {
 	private String number;
 	private Date createtime;
 	private String note;
+	private List<OrderDetail> orderDetails;
+	private User user;
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	public int getId() {
 		return id;
+	}
+	public List<OrderDetail> getOrderDetails() {
+		return orderDetails;
+	}
+	public void setOrderDetails(List<OrderDetail> orderDetails) {
+		this.orderDetails = orderDetails;
 	}
 	public void setId(int id) {
 		this.id = id;

@@ -1,6 +1,7 @@
 package com.lee.pojo;
 
 import java.util.Date;
+import java.util.List;
 
 public class User {
 	/* (non-Javadoc)
@@ -11,9 +12,19 @@ public class User {
 	private Date birthday;
 	private String sex;
 	private String address;
+	private List<Orders> orderlist;
 	public int getId() {
 		return id;
 	}
+
+	public List<Orders> getOrderlist() {
+		return orderlist;
+	}
+
+	public void setOrderlist(List<Orders> orderlist) {
+		this.orderlist = orderlist;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}

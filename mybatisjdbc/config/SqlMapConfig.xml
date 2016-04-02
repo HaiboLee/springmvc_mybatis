@@ -5,6 +5,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>
 	<!-- 加载属性文件 -->
 	<properties resource="db.properties" />
+	<settings>
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<setting name="aggressiveLazyLoading" value="false"/>
+	</settings>
 
 	<!-- 別名 -->
 	<typeAliases>
@@ -13,6 +17,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<!-- 批量别名设 自动设置的别名为类名的大写或者小写 -->
 		<package name="com.lee.pojo" />
 	</typeAliases>
+	
+	<!-- 设置延时加载开关 -->
 
 	<!-- 和spring整合后 environments配置将废除 -->
 	<environments default="development">

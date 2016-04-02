@@ -107,7 +107,7 @@ public class MapperTest {
 		
 		OrderQueryVo count=mapper.findUserByOrdersNumber("1000010");
 		
-		System.out.println(count.getUser().toString());
+		//System.out.println(count.getUser().toString());
 
 	}
 
