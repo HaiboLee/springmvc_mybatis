@@ -3,9 +3,12 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lee.mapper.Mapper">
+	<!-- 开始二级缓存 -->
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache" >
+	</cache>
 	<select id="findUserById" parameterType="int" resultType="com.lee.pojo.User">
 		select
-		* from user where id=#{value}
+		* from user where id=#{id}
 	</select>
 	<!-- 根据用户名称模糊查询用户信息 resultType表示单条结果的类型 -->
 	<select id="findUserByUsername" parameterType="java.lang.String"
@@ -33,33 +36,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 
 	<!-- 根据id更新用户 -->
-	<update id="updateUser" parameterType="com.lee.pojo.User">
+	<update id="updateUser" parameterType="com.lee.pojo.User" flushCache="false">
 		update user set
 		username=#{username},birthday=#{birthday},sex=#{sex},address=#{address}
 		where id=#{id}
 	</update>
-	
-	<!-- sql片段 
-		不要将where包含进去,方便加入多个片段
-	-->
+
+	<!-- sql片段 不要将where包含进去,方便加入多个片段 -->
 	<sql id="sexAndUseName">
-			<if test="usreCustom!=null">
-				<if test="usreCustom.sex!=null and usreCustom.sex!=''">
-					and user.sex=#{usreCustom.sex}
-				</if>
-				<if test="usreCustom.username!=null and usreCustom.username!=''">
-					and user.username like '%${usreCustom.username}%'
-				</if>
+		<if test="usreCustom!=null">
+			<if test="usreCustom.sex!=null and usreCustom.sex!=''">
+				and user.sex=#{usreCustom.sex}
 			</if>
-			<!-- 使用foreache 
-				and id in(1,10,16)
-			-->
-			<if test="ids!=null and ids!=''">
-			
-			<foreach collection="ids" item="item_id" open="and id in(" close=")" separator=",">
+			<if test="usreCustom.username!=null and usreCustom.username!=''">
+				and user.username like '%${usreCustom.username}%'
+			</if>
+		</if>
+		<!-- 使用foreache and id in(1,10,16) -->
+		<if test="ids!=null and ids!=''">
+
+			<foreach collection="ids" item="item_id" open="and id in("
+				close=")" separator=",">
 				#{item_id}
 			</foreach>
-			</if>
+		</if>
 	</sql>
 
 	<!-- 使用包装类型综合查询用户信息 查询叫小明的男性 -->
@@ -69,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from user
 		<!-- 使用动态sql拼接 -->
 		<where>
-		<include refid="sexAndUseName"/>
+			<include refid="sexAndUseName" />
 		</where>
 
 	</select>
@@ -96,5 +96,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		resultMap="resultMapfindUserResultMap">
 		select id 编号,username 姓名 from user where id=#{id}
 	</select>
-	
+
 </mapper>

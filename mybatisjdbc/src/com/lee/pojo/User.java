@@ -1,9 +1,10 @@
 package com.lee.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class User {
+public class User implements Serializable{
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

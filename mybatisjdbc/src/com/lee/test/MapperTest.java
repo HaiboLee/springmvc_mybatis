@@ -28,14 +28,32 @@ public class MapperTest {
 
 	@Test
 	public void testFindUserById() throws Exception {
-		SqlSession sqlSession=sqlsessionFactory.openSession();
+		SqlSession sqlSession1=sqlsessionFactory.openSession();
+		SqlSession sqlSession2=sqlsessionFactory.openSession();
+		SqlSession sqlSession3=sqlsessionFactory.openSession();
 
 		//使用sqlSession.getMapper()得到mapper接口的對象
-		Mapper mapper=sqlSession.getMapper(Mapper.class);
+		Mapper mapper1=sqlSession1.getMapper(Mapper.class);
+		Mapper mapper2=sqlSession2.getMapper(Mapper.class);
+		Mapper mapper3=sqlSession3.getMapper(Mapper.class);
 
-		User user=mapper.findUserById(1);
+		User user1=mapper1.findUserById(1);
+		System.out.println(user1.toString());
+		sqlSession1.close();
+		
+		User user3=mapper3.findUserById(1);
+//		user3.setUsername("马六");
+//		mapper3.updateUser(user3);
+//		sqlSession3.commit();
+		sqlSession3.close();
+		
+		User user2=mapper2.findUserById(1);
+		System.out.println(user2.toString());
+		sqlSession2.close();
+		
+		//User user3=mapper3.findUserById(1);
 
-		System.out.println(user.toString());
+		//System.out.println(user1.toString());
 
 	}
 

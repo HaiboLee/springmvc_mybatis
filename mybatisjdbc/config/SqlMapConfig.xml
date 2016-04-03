@@ -6,8 +6,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<!-- 加载属性文件 -->
 	<properties resource="db.properties" />
 	<settings>
+		<!-- 延迟加载 -->
 		<setting name="lazyLoadingEnabled" value="true"/>
 		<setting name="aggressiveLazyLoading" value="false"/>
+		<!-- 二級緩存 -->
+		<setting name="cacheEnabled" value="true"/>
 	</settings>
 
 	<!-- 別名 -->
